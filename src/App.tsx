@@ -11,6 +11,9 @@ function App() {
     fetchProducts().then((data) => {
       setProducts(data);
       setLoading(false);
+    }).catch(err => {
+      console.error("Kļūda ielādējot datus:", err);
+      setLoading(false);
     });
   }, []);
 
@@ -27,10 +30,12 @@ function App() {
         {products.map((product) => (
           <div key={product.id} className="product-card">
             <div className="img-container">
-              <img src={product.image} alt={product.title} />
+              {/* Jaunajā API bildes ir masīvā, ņemam pirmo [0] */}
+              <img src={product.images[0]} alt={product.title} />
             </div>
             
-            <span className="category">{product.category}</span>
+            {/* Jaunajā API kategorija ir objekts ar nosaukumu .name */}
+            <span className="category">{product.category.name}</span>
             <h3 className="title">{product.title}</h3>
 
             <div className="footer">
